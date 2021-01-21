@@ -48,8 +48,8 @@
     "electron-builder": "^22.9.1",
     "wait-on": "^5.2.1"
   },
-  "description": "YOUR_DESCRIPTION",
-  "author": "AUTHOR",
+  "description": "hello world app",
+  "author": "astrid",
   "main": "public/electron.js",
   "homepage": "./",
   "scripts": {

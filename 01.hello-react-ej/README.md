@@ -1,46 +1,112 @@
-# Getting Started with Create React App
+# The 1st Electron-JS app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Install yarn
+[For windows msi](https://classic.yarnpkg.com/en/docs/install#windows-stable)
 
-## Available Scripts
+```
+npm install --global yarn
+```
+## Install & Create app
+CRA (create-react-app) is a package that automatically creates the react development environment with one command line.
+Executing the CRA command internally installs React and React-DOM. Instead of installing packages with NPM, you can always create a React execution environment with the latest version of CRA by using NPX as shown below.
+### `react` & `electron`
+```
+yarn create react-app hello-react-ej --template typescript
+```
+In terminal, move app directory & install electron
+```
+yarn add electron electron-builder --dev
+```
+For debugging, can install follow pakages:
+```
+yarn add electron-is-dev
+yarn add concurrently wait-on cross-env --dev
+```
+- electron-is-dev
+Package to check if Electron is running in the development environment.
 
-In the project directory, you can run:
+- concurrently
+Instructions that help you execute multiple instructions in parallel.
 
-### `yarn start`
+- wait-on
+A cross-platform command that waits until a specific port, file, HTTP resource, etc. is activated.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- cross-env
+A command that helps you set environment variables with the same statement regardless of OS such as Windows, Linux, macOS, etc. when running a program in the CLI environment.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### `typescript`
 
-### `yarn test`
+```
+yarn add typescript
+```
+## Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### `tsconfig.json`
+<pre>
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",<b>
+    "sourceMap": true</b>
+  },<b>
+  "include": [
+    "src",
+    "./public/electron.ts"
+  ],
+  "exclude": ["node_modules"]</b>
+}
+</pre>
+### `package.json`
+<pre>
+{
+  ...,
+  "description": "YOUR_DESCRIPTION",
+  "author": "AUTHOR",
+  "main": "public/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "yarn react-build && electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always"
+  },
+  ...
+}
+</pre>
+## Compile & Run
+### `Electron.ts`
+```
+yarn tsc ./public/electron.ts
+```
+### Run
+```
+yarn start
+```
+### Build
+```
+yarn build
+```
+## Release
+```
+yarn release
+```
